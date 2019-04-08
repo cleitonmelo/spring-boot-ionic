@@ -15,10 +15,25 @@ public class CategoriaService {
 	@Autowired
 	private CategoriaRepository repo;
 	
+	/**
+	 * Buscar objeto do tipo categoria
+	 * @param id
+	 * @return objeto do tipo categoria
+	 */
 	public Categoria buscar(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo " + Categoria.class.getName()));
+	}
+	
+	/**
+	 * Inserir um objeto do tipo categoria
+	 * @param categoria
+	 * @return Salva objeto do tipo categoria
+	 */
+	public Categoria inserir(Categoria categoria) {
+		categoria.setId(null);
+		return repo.save(categoria);
 	}
 
 }
