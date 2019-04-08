@@ -20,7 +20,7 @@ public class CategoriaService {
 	 * @param id
 	 * @return objeto do tipo categoria
 	 */
-	public Categoria buscar(Integer id) {
+	public Categoria find(Integer id) {
 		Optional<Categoria> obj = repo.findById(id);
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo " + Categoria.class.getName()));
@@ -31,9 +31,19 @@ public class CategoriaService {
 	 * @param categoria
 	 * @return Salva objeto do tipo categoria
 	 */
-	public Categoria inserir(Categoria categoria) {
-		categoria.setId(null);
-		return repo.save(categoria);
+	public Categoria insert(Categoria obj) {
+		obj.setId(null);
+		return repo.save(obj);
+	}
+	
+	/**
+	 * Atualizando um objeto do tipo categoria
+	 * @param obj
+	 * @return Salva um objeto do tipo categoria
+	 */
+	public Categoria update(Categoria obj) {
+		find(obj.getId());
+		return repo.save(obj);
 	}
 
 }
