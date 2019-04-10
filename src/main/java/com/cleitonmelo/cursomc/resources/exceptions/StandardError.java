@@ -40,7 +40,4 @@ public class StandardError implements Serializable{
 		this.timeStamp = timeStamp;
 	}
 	
-	
-	
-	
 }

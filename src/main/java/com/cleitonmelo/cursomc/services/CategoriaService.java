@@ -3,10 +3,12 @@ package com.cleitonmelo.cursomc.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.cleitonmelo.cursomc.domain.Categoria;
 import com.cleitonmelo.cursomc.repositories.CategoriaRepository;
+import com.cleitonmelo.cursomc.services.exceptions.DataIntegrityException;
 import com.cleitonmelo.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -44,6 +46,20 @@ public class CategoriaService {
 	public Categoria update(Categoria obj) {
 		find(obj.getId());
 		return repo.save(obj);
+	}
+
+	/**
+	 * Deletando o objeto com base no ID da Categoria
+	 * @param id
+	 */
+	public void delete(Integer id) {
+		find(id);
+		try {
+			repo.deleteById(id);			
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException("Não é possível excluir uma categoria que possui filhos");
+		}
+
 	}
 
 }
