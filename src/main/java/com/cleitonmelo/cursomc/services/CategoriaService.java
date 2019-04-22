@@ -44,13 +44,14 @@ public class CategoriaService {
 	}
 	
 	/**
-	 * Atualizando um objeto do tipo categoria
+	 * Atualizar os dados tipo de categoria
 	 * @param obj
-	 * @return Salva um objeto do tipo categoria
+	 * @return
 	 */
 	public Categoria update(Categoria obj) {
-		find(obj.getId());
-		return repo.save(obj);
+		Categoria newObj = find(obj.getId());
+		updateData(newObj, obj);
+		return repo.save(newObj);
 	}
 
 	/**
@@ -95,6 +96,15 @@ public class CategoriaService {
 	 */
 	public Categoria fromDto(CategoriaDTO objDto) {
 		return new Categoria(objDto.getId(), objDto.getNome());
+	}
+	
+	/**
+	 * Atualiza os dados
+	 * @param newObj
+	 * @param obj
+	 */
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
 	}
 
 }
