@@ -22,88 +22,91 @@ import com.cleitonmelo.cursomc.dto.CategoriaDTO;
 import com.cleitonmelo.cursomc.services.CategoriaService;
 
 @RestController
-@RequestMapping(value="/categorias")
+@RequestMapping(value = "/categorias")
 public class CategoriaResource {
 
 	@Autowired
 	private CategoriaService service;
-	
+
 	/**
-	 * Buscar categoria por ID 
+	 * Buscar categoria por ID
+	 * 
 	 * @param id
 	 * @return ResponseEntity objeto categoria
 	 */
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	/**
 	 * Inserir Categoria
+	 * 
 	 * @param obj
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto){
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto) {
 		Categoria obj = service.fromDto(objDto);
 		obj = service.insert(obj);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-	
+
 	/**
 	 * Atualiza a categoria
+	 * 
 	 * @param obj
 	 * @return
 	 */
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
-	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id){
+	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id) {
 		Categoria obj = service.fromDto(objDto);
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	/**
 	 * Deleta a categoria
+	 * 
 	 * @param id
 	 * @return
 	 */
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	/**
 	 * Lista de Categorias
+	 * 
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<CategoriaDTO>> findAll(){
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> list = service.findAll();
-		List<CategoriaDTO> listDTO = list.stream().map(
-				obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		List<CategoriaDTO> listDTO = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
-	
+
 	/**
 	 * Retornar as categorias quebrado por pagina
-	 * @param page 
+	 * 
+	 * @param page
 	 * @param linesPerPage
 	 * @param direction
 	 * @param orderBy
 	 * @return
 	 */
-	@RequestMapping(value="/page", method=RequestMethod.GET)
-	public ResponseEntity<Page<CategoriaDTO>> findPage(
-			@RequestParam(value="page", defaultValue = "0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue = "24") Integer linesPerPage, 
-			@RequestParam(value="direction", defaultValue = "ASC") String direction, 
-			@RequestParam(value="orderBy", defaultValue = "nome") String orderBy){
-		
+	@RequestMapping(value = "/page", method = RequestMethod.GET)
+	public ResponseEntity<Page<CategoriaDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy) {
+
 		Page<Categoria> list = service.findPage(page, linesPerPage, direction, orderBy);
 		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
 		return ResponseEntity.ok().body(listDTO);
