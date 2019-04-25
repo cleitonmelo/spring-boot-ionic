@@ -7,24 +7,26 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import com.cleitonmelo.cursomc.domain.Cliente;
+import com.cleitonmelo.cursomc.services.validation.ClienteUpdate;
 
-public class ClienteDTO implements Serializable{
+@ClienteUpdate
+public class ClienteDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	private Integer id;
-	
-	@NotEmpty(message="Preenchimento obrigatório!")
-	@Size(min=5, max=120, message="O Tamanho deve ser entre 5 e 120 caracteres")
+
+	@NotEmpty(message = "Preenchimento obrigatório!")
+	@Size(min = 5, max = 120, message = "O Tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
-	
-	@NotEmpty(message="Preenchimento obrigatório!")
-	@Email(message="E-mail inválido")
+
+	@NotEmpty(message = "Preenchimento obrigatório!")
+	@Email(message = "E-mail inválido")
 	private String email;
-	
+
 	public ClienteDTO() {
-		
+
 	}
-	
+
 	public ClienteDTO(Cliente obj) {
 		id = obj.getId();
 		nome = obj.getNome();
@@ -54,7 +56,5 @@ public class ClienteDTO implements Serializable{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	
 
 }
