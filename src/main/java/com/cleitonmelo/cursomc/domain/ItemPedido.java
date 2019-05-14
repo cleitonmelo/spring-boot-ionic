@@ -1,6 +1,8 @@
 package com.cleitonmelo.cursomc.domain;
 
 import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -40,7 +42,7 @@ public class ItemPedido implements Serializable {
 	public Pedido getPedido() {
 		return id.getPedido();
 	}
-	
+
 	public void setPedido(Pedido pedido) {
 		id.setPedido(pedido);
 	}
@@ -48,7 +50,7 @@ public class ItemPedido implements Serializable {
 	public Produto getProduto() {
 		return id.getProduto();
 	}
-	
+
 	public void setProduto(Produto produto) {
 		id.setProduto(produto);
 	}
@@ -109,4 +111,20 @@ public class ItemPedido implements Serializable {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+		StringBuilder builder = new StringBuilder();
+		builder.append(getProduto().getNome());
+		builder.append(", Qtde: ");
+		builder.append(getQuantidade());
+		builder.append(", Preço unitário: ");
+		builder.append(nf.format(getPreco()));
+		builder.append(", SubTotal: ");
+		builder.append(nf.format(getSubTotal()));
+		builder.append("\n");
+		return builder.toString();
+	}
+
 }
